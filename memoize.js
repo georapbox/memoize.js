@@ -1,3 +1,6 @@
+/*jshint expr: true, node: true*/
+/*global define*/
+
 /*
  * memoize.js
  * by @philogb and @addyosmani
@@ -19,28 +22,31 @@
         // Browser globals (root is window)
         root.memoize = factory();
     }
-}(this, function() {
-    "use strict";
+}(this, function () {
+    'use strict';
 
-    var memoize = function(func) {
+    var memoize = (typeof JSON === 'object' && typeof JSON.stringify === 'function' ? function (func) {
         var stringifyJson = JSON.stringify,
             cache = {};
-
-        var cachedfun = function() {
+		
+        var cachedfun = function () {
             var hash = stringifyJson(arguments);
             return (hash in cache) ? cache[hash] : cache[hash] = func.apply(this, arguments);
         };
 
-        cachedfun.__cache = (function() {
-            cache.remove || (cache.remove = function() {
+        cachedfun.__cache = (function () {
+            cache.remove || (cache.remove = function () {
                 var hash = stringifyJson(arguments);
                 return (delete cache[hash]);
             });
+			
             return cache;
         }).call(this);
-
+		
         return cachedfun;
-    };
+    } : function (func) {
+		return func;
+	});
 
     return memoize;
 }));
