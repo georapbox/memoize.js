@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memoize.js demo</title>
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+    <h1>Memoize.js</h1>
+    <p>Open browser's console for results.</p>
+
+<pre>
+var fiborg,
+    fibMem;
+
+fiborg = fibMem = function (x) {
+    if(x &lt; 2) {
+        return 1;    
+    }  else {
+        return fibMem(x - 1) + fibMem(x - 2);
+    }
+    return x;
+}
+</pre>
+    
+    <p>
+    	<input id="memoizeInput" type="checkbox">
+    	<label for="memoizeInput">Enable Memoization</label>
+    </p>
+    
+    <p>
+    	Execute function: fibMem(<input id="fibValInput" type="number" min="1" max="40" step="1" value="40">); *<br/>
+    	* <span class="info">This is a blocking function. Values > 40 take time to execute and may block the browser.</span>
+    </p>
+    
+    <p>
+        <button id="runFunBtn">Run</button>
+        <span id="preloader">calculating result, please wait...</span>
+    </p>
+   
+    <script src="../memoize.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>
